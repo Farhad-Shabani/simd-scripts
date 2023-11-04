@@ -1,11 +1,6 @@
 #!/bin/bash
 
-BINARY=simd
-CHAIN_DIR=./data
-CHAINID_1=test-1
-CHAINID_2=test-2
-GRPCPORT_1=8090
-GRPCPORT_2=8091
+source ./network/variables.sh
 
 echo "Starting $CHAINID_1 in $CHAIN_DIR..."
 echo "Creating log file at $CHAIN_DIR/$CHAINID_1.log"

@@ -38,3 +38,7 @@ rly-init:
 
 rly-start:
 	./network/rly/start.sh
+
+upload-wasm:
+	@echo "Uploading wasm to both chains..."
+	./network/upload_wasm.sh
