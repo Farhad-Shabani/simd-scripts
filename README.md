@@ -3,18 +3,25 @@
 Boilerplate scripts for bootstrapping two WASM enabled `simd` nodes, uploading client contracts, and setting up IBC transport and relaying.
 
 ### Installing simd
-
-Install the `simd` binary from the [`ibc-go`](https://github.com/cosmos/ibc-go) repository.
+Install the `simd` binary from the `feat/wasm-clients` branch of [`ibc-go`](https://github.com/cosmos/ibc-go) repository.
 
 ```bash
 git clone git@github.com:cosmos/ibc-go.git && cd ibc-go
 
-make install
+git checkout feat/wasm-clients
+
+cd ./modules/light-clients/08-wasm
+
+go mod download
+
+mkdir -p /build
+
+go build -mod=readonly -tags "netgo ledger muslc" -trimpath -o /build/ ./...
 ```
 
 ### Setup chains
 
-Bootsrap two `simd` chains. The following will clear any existing chain state under `./data` and create a new environment. 
+Bootstrap two `simd` chains. The following will clear any existing chain state under `./data` and create a new environment.
 It bootstraps two single validator nodes for different `simd` chains `test-1` and `test-2`.
 
 The scripts create a couple of accounts, both for relayers and demo accounts.
