@@ -1,6 +1,6 @@
 BINARY=simd
 CHAIN_DIR=./data
-WASM_FILE=./contract/sov_celestia_cw.wasm
+WASM_FILE=./contract/sov_celestia_client_cw.wasm
 
 # Variables of the first chain
 CHAINID_1=test-1

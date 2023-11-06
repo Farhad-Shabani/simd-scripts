@@ -62,7 +62,8 @@ sed -i -e 's#"tcp://0.0.0.0:1317"#"tcp://0.0.0.0:'"$RESTPORT_1"'"#g' $CHAIN_DIR/
 sed -i -e 's#":8080"#":'"$ROSETTA_1"'"#g' $CHAIN_DIR/$CHAINID_1/config/app.toml
 sed -i -e 's/max_body_bytes = /max_body_bytes = 1000/g' $CHAIN_DIR/$CHAINID_1/config/config.toml
 sed -i -e 's/max_tx_bytes = /max_tx_bytes = 1000/g' $CHAIN_DIR/$CHAINID_1/config/config.toml
-cat $CHAIN_DIR/$CHAINID_1/config/genesis.json | jq '.app_state["gov"]["params"]["voting_period"]="45s"' > $CHAIN_DIR/$CHAINID_1/config/tmp_genesis.json && mv $CHAIN_DIR/$CHAINID_1/config/tmp_genesis.json $CHAIN_DIR/$CHAINID_1/config/genesis.json
+cat $CHAIN_DIR/$CHAINID_1/config/genesis.json | jq '.app_state["gov"]["params"]["max_deposit_period"]="6s"' > $CHAIN_DIR/$CHAINID_1/config/tmp_genesis.json && mv $CHAIN_DIR/$CHAINID_1/config/tmp_genesis.json $CHAIN_DIR/$CHAINID_1/config/genesis.json
+cat $CHAIN_DIR/$CHAINID_1/config/genesis.json | jq '.app_state["gov"]["params"]["voting_period"]="6s"' > $CHAIN_DIR/$CHAINID_1/config/tmp_genesis.json && mv $CHAIN_DIR/$CHAINID_1/config/tmp_genesis.json $CHAIN_DIR/$CHAINID_1/config/genesis.json
 
 sed -i -e 's#"tcp://0.0.0.0:26656"#"tcp://0.0.0.0:'"$P2PPORT_2"'"#g' $CHAIN_DIR/$CHAINID_2/config/config.toml
 sed -i -e 's#"tcp://127.0.0.1:26657"#"tcp://0.0.0.0:'"$RPCPORT_2"'"#g' $CHAIN_DIR/$CHAINID_2/config/config.toml
@@ -72,4 +73,5 @@ sed -i -e 's#"tcp://0.0.0.0:1317"#"tcp://0.0.0.0:'"$RESTPORT_2"'"#g' $CHAIN_DIR/
 sed -i -e 's#":8080"#":'"$ROSETTA_2"'"#g' $CHAIN_DIR/$CHAINID_2/config/app.toml
 sed -i -e 's/max_body_bytes = /max_body_bytes = 1000/g' $CHAIN_DIR/$CHAINID_2/config/config.toml
 sed -i -e 's/max_tx_bytes = /max_tx_bytes = 1000/g' $CHAIN_DIR/$CHAINID_2/config/config.toml
-cat $CHAIN_DIR/$CHAINID_2/config/genesis.json | jq '.app_state["gov"]["params"]["voting_period"]="45s"' > $CHAIN_DIR/$CHAINID_2/config/tmp_genesis.json && mv $CHAIN_DIR/$CHAINID_2/config/tmp_genesis.json $CHAIN_DIR/$CHAINID_2/config/genesis.json
+cat $CHAIN_DIR/$CHAINID_2/config/genesis.json | jq '.app_state["gov"]["params"]["max_deposit_period"]="6s"' > $CHAIN_DIR/$CHAINID_2/config/tmp_genesis.json && mv $CHAIN_DIR/$CHAINID_2/config/tmp_genesis.json $CHAIN_DIR/$CHAINID_2/config/genesis.json
+cat $CHAIN_DIR/$CHAINID_2/config/genesis.json | jq '.app_state["gov"]["params"]["voting_period"]="6s"' > $CHAIN_DIR/$CHAINID_2/config/tmp_genesis.json && mv $CHAIN_DIR/$CHAINID_2/config/tmp_genesis.json $CHAIN_DIR/$CHAINID_2/config/genesis.json

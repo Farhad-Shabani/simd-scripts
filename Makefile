@@ -22,6 +22,10 @@ hermes-init:
 hermes-restore-keys:
 	./network/hermes/restore-keys.sh
 
+hermes-setup-client:
+	@echo "Setting up client on both chains..."
+	./network/hermes/setup-client.sh
+
 hermes-setup-connection:
 	./network/hermes/setup-conn.sh
 
@@ -39,6 +43,9 @@ rly-init:
 rly-start:
 	./network/rly/start.sh
 
-upload-wasm:
-	@echo "Uploading wasm to both chains..."
-	./network/upload_wasm.sh
+wasm-upload:
+	./network/wasm_upload.sh
+	$(MAKE) wasm-code-hashes
+	
+wasm-code-hashes:
+	./network/wasm_code_hashes.sh
