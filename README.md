@@ -1,6 +1,6 @@
 # simd scripts
 
-Boilerplate scripts for boostrapping simd nodes and relayer
+Boilerplate scripts for bootstrapping two WASM enabled `simd` nodes, uploading client contracts, and setting up IBC transport and relaying.
 
 ### Installing simd
 
@@ -10,14 +10,6 @@ Install the `simd` binary from the [`ibc-go`](https://github.com/cosmos/ibc-go) 
 git clone git@github.com:cosmos/ibc-go.git && cd ibc-go
 
 make install
-```
-
-### Installing Hermes
-
-```bash
-cargo install ibc-relayer-cli --bin hermes --locked
-
-hermes version # v1.6.0
 ```
 
 ### Setup chains
@@ -31,6 +23,23 @@ The scripts create a couple of accounts, both for relayers and demo accounts.
 make init
 ```
 
+### Upload WASM contracts
+
+Place the light client WASM contracts under `./contracts` and run the following to upload them to the chains,
+and make sure `WASM_FILE` in the `./networks/variables.sh` file is set to the correct WASM file name.
+
+```bash
+make wasm-upload
+```
+
+### Installing Hermes
+
+```bash
+cargo install ibc-relayer-cli --bin hermes --locked
+
+hermes version # v1.7.0
+```
+
 ### Restore keys using Hermes
 
 Restore keys for relayer wallets `rly-1` and `rly-2`.
@@ -39,7 +48,7 @@ Restore keys for relayer wallets `rly-1` and `rly-2`.
 make hermes-restore-keys
 ```
 
-### Setting up IBC transport and relaying.
+### Setting up IBC transport and relaying
 
 Create a connection from `test-1` to `test-2`. Note, this also creates ibc clients out of the box.
 
@@ -57,40 +66,4 @@ Start relaying.
 
 ```bash
 make hermes-start
-```
-
----
-
-### Ledger signing 
-
-Where `cosmos1kzjk9frgfgpguvdazesgpllwsggk8472xryjvr` is your ledger account address.
-
-Add your ledger key:
-
-```bash
-simd keys add ledgerKey --ledger --home ./data/test-1
-```
-
-Fund your ledger account from one of the demo accounts - `wallet1`:
-
-```bash
-simd tx bank send wallet1 cosmos1kzjk9frgfgpguvdazesgpllwsggk8472xryjvr 1000000stake --from wallet1 --node tcp://localhost:16657 --home ./data/test-1 --keyring-backend test
-```
-
-Query balance of ledger account:
-
-```bash
-simd q bank balances cosmos1kzjk9frgfgpguvdazesgpllwsggk8472xryjvr --home ./data/test-1 --node tcp://localhost:16657
-```
-
-Regular bank send using ledger signing:
-
-```bash
-simd tx bank send cosmos1kzjk9frgfgpguvdazesgpllwsggk8472xryjvr cosmos17dtl0mjt3t77kpuhg2edqzjpszulwhgzuj9ljs 10stake --from ledgerKey --ledger --node tcp://localhost:16657 --home ./data/test-1
-```
-
-IBC transfer using ledger signing:
-
-```bash
-simd tx ibc-transfer transfer transfer channel-0 cosmos17dtl0mjt3t77kpuhg2edqzjpszulwhgzuj9ljs 1000stake --from ledgerKey --ledger --node tcp://localhost:16657 --home ./data/test-1
 ```
