@@ -45,7 +45,7 @@ rly-start:
 
 wasm-upload:
 	./network/wasm_upload.sh
-	$(MAKE) wasm-code-hashes
+	$(MAKE) wasm-checksums
 	
-wasm-code-hashes:
-	./network/wasm_code_hashes.sh
+wasm-checksums:
+	./network/wasm_checksums.sh
