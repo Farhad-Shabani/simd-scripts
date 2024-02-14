@@ -2,7 +2,7 @@
 
 source ./network/variables.sh
 
-# Stop if it is already running 
+# Stop if it is already running
 if pgrep -x "$BINARY" >/dev/null; then
     echo "Terminating $BINARY..."
     killall $BINARY
@@ -35,8 +35,8 @@ echo $WALLET_MNEMONIC_1 | $BINARY keys add wallet1 --home $CHAIN_DIR/$CHAINID_1 
 echo $WALLET_MNEMONIC_2 | $BINARY keys add wallet2 --home $CHAIN_DIR/$CHAINID_1 --recover --keyring-backend=test
 echo $WALLET_MNEMONIC_3 | $BINARY keys add wallet3 --home $CHAIN_DIR/$CHAINID_2 --recover --keyring-backend=test
 echo $WALLET_MNEMONIC_4 | $BINARY keys add wallet4 --home $CHAIN_DIR/$CHAINID_2 --recover --keyring-backend=test
-echo $RLY_MNEMONIC_1 | $BINARY keys add rly1 --home $CHAIN_DIR/$CHAINID_1 --recover --keyring-backend=test 
-echo $RLY_MNEMONIC_2 | $BINARY keys add rly2 --home $CHAIN_DIR/$CHAINID_2 --recover --keyring-backend=test 
+echo $RLY_MNEMONIC_1 | $BINARY keys add rly1 --home $CHAIN_DIR/$CHAINID_1 --recover --keyring-backend=test
+echo $RLY_MNEMONIC_2 | $BINARY keys add rly2 --home $CHAIN_DIR/$CHAINID_2 --recover --keyring-backend=test
 
 $BINARY genesis add-genesis-account $($BINARY --home $CHAIN_DIR/$CHAINID_1 keys show val1 --keyring-backend test -a) 100000000000stake  --home $CHAIN_DIR/$CHAINID_1
 $BINARY genesis add-genesis-account $($BINARY --home $CHAIN_DIR/$CHAINID_2 keys show val2 --keyring-backend test -a) 100000000000stake  --home $CHAIN_DIR/$CHAINID_2
@@ -64,6 +64,7 @@ sed -i -e 's/max_body_bytes = /max_body_bytes = 1000/g' $CHAIN_DIR/$CHAINID_1/co
 sed -i -e 's/max_tx_bytes = /max_tx_bytes = 1000/g' $CHAIN_DIR/$CHAINID_1/config/config.toml
 cat $CHAIN_DIR/$CHAINID_1/config/genesis.json | jq '.app_state["gov"]["params"]["max_deposit_period"]="6s"' > $CHAIN_DIR/$CHAINID_1/config/tmp_genesis.json && mv $CHAIN_DIR/$CHAINID_1/config/tmp_genesis.json $CHAIN_DIR/$CHAINID_1/config/genesis.json
 cat $CHAIN_DIR/$CHAINID_1/config/genesis.json | jq '.app_state["gov"]["params"]["voting_period"]="6s"' > $CHAIN_DIR/$CHAINID_1/config/tmp_genesis.json && mv $CHAIN_DIR/$CHAINID_1/config/tmp_genesis.json $CHAIN_DIR/$CHAINID_1/config/genesis.json
+cat $CHAIN_DIR/$CHAINID_1/config/genesis.json | jq '.app_state["ibc"]["client_genesis"]["params"]["allowed_clients"] += ["08-wasm"]' > $CHAIN_DIR/$CHAINID_1/config/tmp_genesis.json && mv $CHAIN_DIR/$CHAINID_1/config/tmp_genesis.json $CHAIN_DIR/$CHAINID_1/config/genesis.json
 
 sed -i -e 's#"tcp://0.0.0.0:26656"#"tcp://0.0.0.0:'"$P2PPORT_2"'"#g' $CHAIN_DIR/$CHAINID_2/config/config.toml
 sed -i -e 's#"tcp://127.0.0.1:26657"#"tcp://0.0.0.0:'"$RPCPORT_2"'"#g' $CHAIN_DIR/$CHAINID_2/config/config.toml
@@ -75,3 +76,4 @@ sed -i -e 's/max_body_bytes = /max_body_bytes = 1000/g' $CHAIN_DIR/$CHAINID_2/co
 sed -i -e 's/max_tx_bytes = /max_tx_bytes = 1000/g' $CHAIN_DIR/$CHAINID_2/config/config.toml
 cat $CHAIN_DIR/$CHAINID_2/config/genesis.json | jq '.app_state["gov"]["params"]["max_deposit_period"]="6s"' > $CHAIN_DIR/$CHAINID_2/config/tmp_genesis.json && mv $CHAIN_DIR/$CHAINID_2/config/tmp_genesis.json $CHAIN_DIR/$CHAINID_2/config/genesis.json
 cat $CHAIN_DIR/$CHAINID_2/config/genesis.json | jq '.app_state["gov"]["params"]["voting_period"]="6s"' > $CHAIN_DIR/$CHAINID_2/config/tmp_genesis.json && mv $CHAIN_DIR/$CHAINID_2/config/tmp_genesis.json $CHAIN_DIR/$CHAINID_2/config/genesis.json
+cat $CHAIN_DIR/$CHAINID_2/config/genesis.json | jq '.app_state["ibc"]["client_genesis"]["params"]["allowed_clients"] += ["08-wasm"]' > $CHAIN_DIR/$CHAINID_2/config/tmp_genesis.json && mv $CHAIN_DIR/$CHAINID_2/config/tmp_genesis.json $CHAIN_DIR/$CHAINID_2/config/genesis.json
